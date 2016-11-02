@@ -9,18 +9,19 @@
 # we skip switches/oobservers because they normally don't
 # have python installed.
 
-- hosts: all:!switches:!oobservers
-  remote_user: root
-  tasks: []
+#- hosts: all:!switches:!oobservers
+#  remote_user: kurgan 
+#  tasks: []
 
 # role for nagios clients via NRPE
-- hosts: all:!switches:!oobservers:!nagios
-  remote_user: root
+- hosts: webservers:!switches:!oobservers:!nagios
+  remote_user: kurgan
   roles:
     - { role: nagios-client }
 
 # role for nagios server
 - hosts: nagios
-  remote_user: root
+  remote_user: kurgan 
+  become: true 
   roles:
     - { role: nagios }

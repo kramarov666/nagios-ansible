@@ -3,16 +3,16 @@
 
 ### Nagios Variables ###
 nagios_username: nagiosadmin
-nagios_password: changeme
-nagios_create_guest_user: true
+nagios_password: 1234
+nagios_create_guest_user: false
 nagios_ro_username: guest
 nagios_ro_password: guest
 nagios_http_port: 80
 nagios_https_port: 443
 admin_name_01: nagiosadmin
 # change this to your email address if you want notifications
-admin_email_01: nagios@localhost
-### NRPE variables ###
+admin_email_01: admin@localhost
+## NRPE variables ###
 nrpe_tcp_port: 5666
 # threshold for # of processes
 warning_proc: 900
@@ -25,3 +25,4 @@ critical_users: 30
 # https://github.com/sadsfae/ansible-elk
 kibana_user: admin
 kibana_password: admin
+nagios_ip: 192.168.122.218

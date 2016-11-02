@@ -23,7 +23,7 @@ log_facility=daemon
 # number.  The file is only written if the NRPE daemon is started by the root
 # user and is running in standalone mode.
 
-pid_file=/var/run/nrpe/nrpe.pid
+pid_file=/var/run/nagios/nrpe.pid
 
 
 
@@ -49,7 +49,7 @@ server_port={{nrpe_tcp_port}}
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-nrpe_user=nrpe
+nrpe_user=nagios
 
 # NRPE GROUP
 # This determines the effective group that the NRPE daemon should run as.
@@ -57,7 +57,7 @@ nrpe_user=nrpe
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-nrpe_group=nrpe
+nrpe_group=nagios
 
 # ALLOWED HOST ADDRESSES
 # This is an optional comma-delimited list of IP address or hostnames
@@ -73,11 +73,11 @@ nrpe_group=nrpe
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
 ## This needs to be generated for inventory
-{% for host in groups['nagios'] %}
+#{% for host in groups['nagios'] %}
 
-allowed_hosts=127.0.0.1,{{ hostvars[host].ansible_default_ipv4.address }}
+allowed_hosts=127.0.0.1,{{ nagios_ip }}
 
-{% endfor %}
+#{% endfor %}
 
 # COMMAND ARGUMENT PROCESSING
 # This option determines whether or not the NRPE daemon will allow clients
@@ -135,7 +135,7 @@ allow_bash_command_substitution=0
 # syslog facility.
 # Values: 0=debugging off, 1=debugging on
 
-debug=0
+debug=1
 
 
 
@@ -207,7 +207,8 @@ command[check_zombie_procs]=/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s 
 command[check_total_procs]=/usr/lib64/nagios/plugins/check_procs -w {{ warning_proc }} -c {{ critical_proc }}
 command[check_uptime]=/usr/lib64/nagios/plugins/check_uptime
 command[check_tcp_es]=/usr/lib64/nagios/plugins/check_tcp -H localhost -p 9200
-
+command[check_cpu]=/usr/lib/nagios/plugins/check_cpu.sh -w 70 -c 90 --all
+command[check_mem]=/usr/lib/nagios/plugins/check_mem.pl -u -w 99 -c 100
 # The following examples allow user-supplied arguments and can
 # only be used if the NRPE daemon was compiled with support for
 # command arguments *AND* the dont_blame_nrpe directive in this
@@ -225,4 +226,4 @@ command[check_tcp_es]=/usr/lib64/nagios/plugins/check_tcp -H localhost -p 9200
 # This directive allows you to include definitions from config files (with a
 # .cfg extension) in one or more directories (with recursion).
 
-include_dir=/etc/nrpe.d/
+include_dir=/etc/nagios/nrpe.d/
