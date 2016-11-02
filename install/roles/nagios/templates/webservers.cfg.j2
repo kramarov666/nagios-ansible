@@ -6,29 +6,15 @@ define hostgroup {
 
 {% for host in groups['webservers'] %}
 define host {
-	use                     linux-server
+	use                    generic-host 
 	host_name               {{ host }}
 	alias                   {{ host }}
-	address                 {{ hostvars[host].ansible_default_ipv4.address }}
+	address                 {{ host }}
 	hostgroups 		        webservers
 }
 {% endfor %}
 
 # service checks to be applied to the web server
-define service {
-	use				            local-service
-	hostgroup_name			    webservers
-	service_description	        HTTP
-	check_command			    check_http
-	notifications_enabled		1
-}
-define service {
-	use				            local-service
-	hostgroup_name			    webservers
-	service_description	        SSH
-	check_command			    check_ssh
-	notifications_enabled		1
-}
 define service {
     use                         generic-service
     hostgroup_name              webservers
@@ -71,8 +57,8 @@ define service{
 define service{
     use                     generic-service
     hostgroup_name          webservers
-    service_description     Disk Check
-    check_command           check_nrpe!check_root
+    service_description     memory check
+    check_command           check_nrpe!check_mem
     notifications_enabled   1
 }
 
@@ -83,3 +69,29 @@ define service{
     check_command           check_nrpe!check_uptime
     notifications_enabled   1
 }
+
+define service{
+    use                     generic-service
+    hostgroup_name          webservers
+    service_description     Uptime
+    check_command           check_nrpe!check_disk
+    notifications_enabled   1
+}
+
+define service{
+    use                     generic-service
+    hostgroup_name          webservers
+    service_description     check mysql
+    check_command           check_nrpe!check_mysql
+    notifications_enabled   1
+}
+
+
+define service{
+    use                     generic-service
+    hostgroup_name          webservers
+    service_description     check check http
+    check_command           check_nrpe!check_http_200!200
+    notifications_enabled   1
+}
+

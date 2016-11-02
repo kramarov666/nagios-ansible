@@ -6,22 +6,15 @@ define hostgroup {
 
 {% for host in groups['servers'] %}
 define host {
-	use                     linux-server
+	use                    generic-host 
 	host_name               {{ host }}
 	alias                   {{ host }}
-	address                 {{ hostvars[host].ansible_default_ipv4.address }}
+	address                 {{ host }}
 	hostgroups 		        servers
 }
 {% endfor %}
 
 # service checks to be applied to the web server
-define service {
-	use				       local-service
-	hostgroup_name		   servers
-	service_description	   SSH
-	check_command		   check_ssh
-	notifications_enabled  1
-}
 define service {
     use                     generic-service
     hostgroup_name          servers

@@ -2,28 +2,21 @@
 # HEADER: by puppet.  While it can still be managed manually, it
 # HEADER: is definitely not recommended.
 
-## EDIT add IRC bot check
-# 'notify-by-ircbot' command definition
-#define command{
-#        command_name    notify-by-ircbot
-#        command_line    /usr/bin/printf "%b" "#openstack-lab NAGIOS: $NOTIFICATIONTYPE$ - $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$: $SERVICEOUTPUT$ ($$(hostname -s))" | nc -w 1 10.16.17.75 5050
-#}
+define command{
+        command_name    notify-host-by-email
+        command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\nHost: $HOSTNAME$\nState: $HOSTSTATE$\nAddress: $HOSTADDRESS$\nInfo: $HOSTOUTPUT$\n\nDate/Time: $LONGDATETIME$\n" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$ **" $CONTACTEMAIL$
+        }
 
-# 'host-notify-by-ircbot' command definition
-#define command{
-#	command_name	host-notify-by-ircbot
-#	command_line	/usr/bin/printf "%b" "#openstack-lab NAGIOS: $NOTIFICATIONTYPE$ - $HOSTALIAS$ is $HOSTSTATE$: $HOSTOUTPUT$ ($$(hostname -s))" | nc -w 1 10.16.17.75 5050
-#}
-#### Define NRPE command here, you need to have this for external host checks #####
-define command {
-	command_name                   check_nrpe
-	command_line                   /usr/lib64/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
-}
+# 'notify-service-by-email' command definition
+define command{
+        command_name    notify-service-by-email
+        command_line    /usr/bin/printf "%b" "***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\n\nService: $SERVICEDESC$\nHost: $HOSTALIAS$\nAddress: $HOSTADDRESS$\nState: $SERVICESTATE$\n\nDate/Time: $LONGDATETIME$\n\nAdditional Info:\n\n$SERVICEOUTPUT$\n" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ Service Alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$ **" $CONTACTEMAIL$
+        }
 
 # check_uptime command definition
 define command{
         command_name    check_uptime
-        command_line    /usr/lib64/nagios/plugins/check_uptime
+        command_line    /usr/lib64/nagios3/plugins/check_uptime
         }
 
 # 'check_http' command definition for elk kibana
@@ -31,7 +24,40 @@ define command{
         command_name    check_elk_http
         command_line    $USER1$/check_http -a {{kibana_user}}:{{kibana_password}} -I $HOSTADDRESS$ $ARG1$
         }
-        
+      
+
+
+define command{
+command_name check_local_disk
+command_line /usr/lib/nagios/plugins/check_disk -w 10 -c 5 /dev/vda1
+}
+
+
+define command{
+command_name check_ping_host
+command_line /usr/lib/nagios/plugins/check_ping -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$
+}
+
+
+
+define command{
+command_name check_http_200
+command_line /usr/lib/nagios/plugins/check_http -H $HOSTADDRESS$ -e $ARG1$
+}
+
+define command{
+command_name check_cam1
+command_line /usr/lib/nagios/plugins/check_cam1 $ARG1$
+}
+
+define command{
+command_name check_nrpe
+command_line /usr/lib/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+
+
+
+
 ### You can define more custom commands below for NRPE ###
 #
 #define command {

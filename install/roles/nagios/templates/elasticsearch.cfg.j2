@@ -16,13 +16,6 @@ define host {
 
 # service checks to be applied to the elasticsearch server
 define service {
-	use				            local-service
-	hostgroup_name			    elasticsearch
-	service_description	        SSH
-	check_command			    check_ssh
-	notifications_enabled		1
-}
-define service {
     use                         generic-service
     hostgroup_name              elasticsearch
     service_description         PING
