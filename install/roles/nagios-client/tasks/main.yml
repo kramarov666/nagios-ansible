@@ -32,6 +32,7 @@
    - check_cpu.sh
    - check_mem.pl
    - check_uptime
+   - check_postgres.pl
 # register: nrpe_needs_restart
 ### begin firewall ###
 # we need TCP/5666 open

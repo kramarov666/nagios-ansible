@@ -67,6 +67,10 @@
 
 - name: Create generic nagios groups
   copy: src=hostgroups_nagios2.cfg dest=/etc/nagios3/conf.d/
+- name: copy nrpe edited file
+  copy: src=check_nrpe.cfg dest=/etc/nagios-plugins/config/
+
+
 
 - name: Generate the nagios monitoring templates
   template: src={{ item + ".j2" }}
