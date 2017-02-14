@@ -31,6 +31,7 @@
   with_items:
    - check_cpu.sh
    - check_mem.pl
+   - check_uptime
 # register: nrpe_needs_restart
 ### begin firewall ###
 # we need TCP/5666 open
