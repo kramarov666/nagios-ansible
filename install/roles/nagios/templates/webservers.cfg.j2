@@ -73,7 +73,7 @@ define service{
 define service{
     use                     generic-service
     hostgroup_name          webservers
-    service_description     Uptime
+    service_description     check_disk
     check_command           check_nrpe!check_disk
     notifications_enabled   1
 }

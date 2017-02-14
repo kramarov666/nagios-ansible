@@ -1,9 +1,7 @@
 [nagios]
-192.168.122.218
 
 [webservers]
-192.168.122.217
-192.168.122.1
+138.68.107.155
 [elkservers]
 
 [elasticsearch]

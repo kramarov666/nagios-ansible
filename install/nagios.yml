@@ -12,7 +12,6 @@
 #- hosts: all:!switches:!oobservers
 #  remote_user: kurgan 
 #  tasks: []
-
 # role for nagios clients via NRPE
 - hosts: webservers:!switches:!oobservers:!nagios
   remote_user: kurgan
