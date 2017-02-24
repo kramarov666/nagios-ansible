@@ -2,18 +2,20 @@
 46.101.235.244
 
 [webservers]
-207.154.195.193
-138.68.107.155
-192.81.221.72
-146.185.163.146
-95.85.25.228
-207.154.210.220
-139.59.134.149
+plivka-py
+mail-server
+winged-test
+plivka
+cnb-py-oleksii
+cnb-nginx
+winged-prod
 [elkservers]
 
-[elasticsearch]
+[mysql]
+cnb-mysql
 
-[switches]
+[postgres]
+winged-db
 
 [oobservers]
 

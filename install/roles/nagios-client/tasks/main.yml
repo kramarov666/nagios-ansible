@@ -8,9 +8,9 @@
 #- debug: msg="-----------debug------------"
 #- debug: msg=hostvars[host].[ansible_default_ipv4].address
 
-- name: apt update
-  apt: update_cache=yes
-  become: true
+#- name: apt update
+#  apt: update_cache=yes
+#  become: true
 - name: Install NRPE and Common Plugins
   apt: name={{ item }} state=present
   become: true

@@ -13,7 +13,7 @@
 #  remote_user: kurgan 
 #  tasks: []
 # role for nagios clients via NRPE
-- hosts: webservers:!switches:!oobservers:!nagios
+- hosts: webservers:postgres:mysql:!switches:!oobservers:!nagios
   remote_user: kurgan
   roles:
     - { role: nagios-client }

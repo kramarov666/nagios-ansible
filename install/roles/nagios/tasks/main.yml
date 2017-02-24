@@ -76,8 +76,8 @@
   template: src={{ item + ".j2" }}
             dest=/etc/nagios3/conf.d/{{ item }}
   with_items:
-   # - oobservers.cfg
-   # - switches.cfg
+    - mysql.cfg
+    - postgres.cfg
     - webservers.cfg
    # - servers.cfg
     - commands.cfg
